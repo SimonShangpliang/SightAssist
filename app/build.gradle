@@ -35,6 +35,7 @@ android {
         repositories {
             google() // This should be included
             // Other repositories...
+
         }
         // Other configurations...
     }
@@ -97,8 +98,9 @@ dependencies {
     def lifecycle_version = "2.6.2"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
-    implementation("com.google.ai.client.generativeai:generativeai:0.1.1")
+    implementation("com.google.ai.client.generativeai:generativeai:0.8.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation 'com.github.MahboubehSeyedpour:jetpack-loading:1.1.0'
 
     //permission handling in compose
     implementation 'com.google.accompanist:accompanist-permissions:0.24.11-rc'

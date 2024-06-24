@@ -48,6 +48,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -61,8 +62,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.signify.presentation.TextRecognitionAnalyzer
 import com.example.signify.ui.HomeUiState
+import com.example.signify.ui.LoadingAnimation
 import com.example.signify.ui.LookBitmapsViewModel
 import com.example.signify.ui.LookViewModel
+import com.example.signify.ui.PulsatingCircles
 import com.example.signify.ui.TTSViewmodel
 import com.example.signify.ui.vibrateOnTextChange
 import com.google.mlkit.vision.common.InputImage
@@ -116,7 +119,7 @@ ttsViewmodel.stopTextToSpeech()
     }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopAppBar(title = { Text("Text Scanner") }) },
+        topBar = {},
     ) { paddingValues: PaddingValues ->
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -150,15 +153,17 @@ ttsViewmodel.stopTextToSpeech()
             )
             val viewModel2=viewModel<LookViewModel>()
             val uiState=viewModel2.uiState.collectAsState().value
-           when(uiState)
+          when(uiState)
            {
                is HomeUiState.Success-> {
                    detectedText=uiState.outputText
+
 
                }
                is HomeUiState.Loading->
                {
                   detectedText="Loading"
+
                }
                is HomeUiState.Error->
                {
@@ -180,7 +185,7 @@ Box(modifier= Modifier
     .fillMaxHeight(0.5f)
     .pointerInput(Unit) {
         detectTapGestures(onDoubleTap = {
-            ttsViewmodel.onTextFieldValueChange("Firstly, Long Press for Taking Photo. Secondly ,For simple text, Draw a vertical line for getting Text response whereas for Complex Text, Draw a horizontal line for getting Text response ")
+            ttsViewmodel.onTextFieldValueChange("Let me read out anything for you. Long Press for reading out. Secondly ,For simple text, Draw a vertical line for getting Text response whereas for Complex Text, Draw a horizontal line for getting Text response ")
             ttsViewmodel.textToSpeech(context = context)
             vibrateOnTextChange(vibrator)
         },
@@ -203,7 +208,14 @@ Box(modifier= Modifier
                         viewModel.bitmaps.value[0].size
                     )
                     Log.d("MainActivity", viewModel.bitmaps.value.size.toString())
-                    processImage(bitmap!!, { it -> detectedText = it }, 90)
+               //     processImage(bitmap!!, { it -> detectedText = it }, 90)
+                    scope.launch {
+                    var output=    viewModel2.questioning("I'm blind please Read out the text in the image meaningfully in proper sequence",viewModel.bitmaps.value)
+                       Log.d("Mainede",output)
+                        ttsViewmodel.onTextFieldValueChange(output)
+                        ttsViewmodel.textToSpeech(context)
+                    }
+
                 }
             }
         ) {
@@ -239,66 +251,92 @@ Box(modifier= Modifier
 
     }
 
-){
-            Column {
-            Row() {
-                Button(onClick = {
-                    Log.d("MainActivity", "pressed")
-                    vibrateOnTextChange(vibrator)
+){    when(uiState)
+{
+    is HomeUiState.Success-> {
+        //detectedText=uiState.outputText
+        Box(modifier=Modifier.align(Alignment.Center)){
+            PulsatingCircles(text = "ReRead")
+        }
 
-                    takeTextPhoto(
-                        controller = cameraController,
-                        applicationContext,
-                        onDetectedTextUpdated = ::onTextUpdated,
-                        onPhotoTaken = viewModel::onTakePhoto
-                    )
-                }) {
-                    Text("press")
-                }
-                Button(onClick = {
-                    Log.d("MainActivity", "pressed")
-                    ttsViewmodel.onTextFieldValueChange(detectedText)
-                    ttsViewmodel.textToSpeech(context)
-                }) {
-                    Text("Speak")
-                }
-                Button(onClick = {
-                    ttsViewmodel.stopTextToSpeech()
-                }) {
-                    Text("Stop Speak")
-                }
+    }
+    is HomeUiState.Loading->
+    {
+        //detectedText="Loading"
+        LoadingAnimation(modifier = Modifier.align(Alignment.Center))
+        LaunchedEffect(Unit) {
+            ttsViewmodel.justSpeech("Please wait .", context = context)
+
+            while (uiState is HomeUiState.Loading) {
+                vibrateOnTextChange(vibrator)
+                delay(300)
             }
-                bitmaps.forEach { byteArray ->
-                    val bitmap: Bitmap? = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        }
+    }
+    is HomeUiState.Error->
+    {
+        Box(modifier=Modifier.align(Alignment.Center)){
+            PulsatingCircles(text = "ReRead")}
+       // detectedText=uiState.error
+    }
+    else->
+    {
+        Box(modifier=Modifier.align(Alignment.Center)){
+            PulsatingCircles(text = "Read")}
+    }
 
-//                    bitmap?.let {
-//                        val imageBitmap: ImageBitmap = it.asImageBitmap()
-//                        // Now you can display the ImageBitmap in Jetpack Compose
-//                        Image(
-//                            bitmap = imageBitmap,
-//                            contentDescription = "Captured Image",
-//                            modifier = Modifier.size(100.dp) // Add your desired modifier
-//                        )
+
+
+
+}
+    //    Column {
+//            Row() {
+//                Button(onClick = {
+//                    Log.d("MainActivity", "pressed")
+//                    vibrateOnTextChange(vibrator)
+//
+//                    takeTextPhoto(
+//                        controller = cameraController,
+//                        applicationContext,
+//                        onDetectedTextUpdated = ::onTextUpdated,
+//                        onPhotoTaken = viewModel::onTakePhoto
+//                    )
+//                }) {
+//                    Text("press")
+//                }
+//                Button(onClick = {
+//                    Log.d("MainActivity", "pressed")
+//                    ttsViewmodel.onTextFieldValueChange(detectedText)
+//                    ttsViewmodel.textToSpeech(context)
+//                }) {
+//                    Text("Speak")
+//                }
+//                Button(onClick = {
+//                    ttsViewmodel.stopTextToSpeech()
+//                }) {
+//                    Text("Stop Speak")
+//                }
+//            }
+//
+//                val scrollState= rememberScrollState()
+//                Button(onClick = {
+//                    scope.launch {
+//                        viewModel2.questioning("I'm blind please Read out the text in the image like a text reader:",viewModel.bitmaps.value)
 //                    }
-                }
-                val scrollState= rememberScrollState()
-                Button(onClick = {
-                    scope.launch {
-                        viewModel2.questioning("Read out the text in the image like a text reader:",viewModel.bitmaps.value)
-                    }
-                }){
-                    Text("Send to Gemini")
-                }
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(androidx.compose.ui.graphics.Color.White)
-                    .padding(16.dp)
-                    .height(50.dp)
-                    .verticalScroll(scrollState)
-                ,
-                text = detectedText,
-            )}
+//                }){
+//                    Text("Send to Gemini")
+//                }
+//            Text(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(androidx.compose.ui.graphics.Color.White)
+//                    .padding(16.dp)
+//                    .height(50.dp)
+//                    .verticalScroll(scrollState)
+//                ,
+//                text = detectedText,
+//            )
+  //          }
         }
     }}
 }

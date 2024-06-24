@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class DiscussViewModel: ViewModel() {
@@ -20,38 +21,35 @@ class DiscussViewModel: ViewModel() {
     init{
         val config= generationConfig {temperature=0.70f  }
         generativeModel= GenerativeModel(
-            modelName = "gemini-pro",
-            apiKey = "AIzaSyDt-sDiRFzo203g38_safthogeiXCZFTqM",
+            modelName = "gemini-1.5-flash",
+            apiKey = "AIzaSyDxpCRBLAKinrybN5TObHYI8PaSqmGS-vs",
             generationConfig = config
         )
     }
-    fun questioning(userInput:String){
-        _uiState.value=DiscussUiState.Loading
-        val prompt=userInput
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val content= content{
+    suspend fun questioning(userInput: String): String {
+        _uiState.value = DiscussUiState.Loading
+        val prompt = userInput
+        var output = ""
 
-                    text(prompt)
-                }
-                var output=""
-                output+= generativeModel.generateContent(content).text
-                _uiState.value =DiscussUiState.Success(output)
-                Log.d("MainActivity","Response done")
-
-//                generativeModel.generateContentStream(content).collect{
-//output+=it.text
-//                    _uiState.value =HomeUiState.Success(output)
-//                }
-                Log.d("MainActivity",output)
-
-            }catch (e: Exception){
-                _uiState.value=DiscussUiState.Error(e.localizedMessage?:"Error in Generating content")
-                Log.d("MainActivity",e.localizedMessage)
+        try {
+            val content = content {
+                text(prompt)
             }
 
+            // Use withContext to execute the code on the IO dispatcher and wait for it to complete
+            output = withContext(Dispatchers.IO) {
+                generativeModel.generateContent(content).text ?: ""
+            }
+
+            _uiState.value = DiscussUiState.Success(output)
+            Log.d("MainActivity", "Response done")
+        } catch (e: Exception) {
+            _uiState.value = DiscussUiState.Error(e.localizedMessage ?: "Error in Generating content")
+            Log.d("MainActivity", e.localizedMessage ?: "Error in Generating content")
         }
 
+        Log.d("mainede", output)
+        return output
     }
 }
 sealed interface DiscussUiState{

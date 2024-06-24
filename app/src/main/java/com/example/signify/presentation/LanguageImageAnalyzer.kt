@@ -30,3 +30,22 @@ class  LanguageImageAnalyzer
 
     }
 }
+//class LanguageImageAnalyzer(
+//    private val classifier: SignClassifier,
+//    private val onResults: (List<Classification>) -> Unit
+//) : ImageAnalysis.Analyzer {
+//
+//    var shouldAnalyze = false
+//
+//    override fun analyze(image: ImageProxy) {
+//        if (shouldAnalyze) {
+//            shouldAnalyze = false
+//            val rotationDegrees = image.imageInfo.rotationDegrees
+//            val bitmap = image.toBitmap()
+//            val results = classifier.classify(bitmap!!, rotationDegrees)
+//            Log.d("MainActivity", results.toString())
+//            onResults(results)
+//        }
+//        image.close()
+//    }
+//}

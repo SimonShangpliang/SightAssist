@@ -47,6 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.signify.data.TfLiteSignClassifier
 import com.example.signify.domain.Classification
+import com.example.signify.ui.PulsatingCircles
 import com.example.signify.ui.TTSViewmodel
 import com.example.signify.ui.theme.SignifyTheme
 import com.example.signify.ui.vibrateOnTextChange
@@ -112,6 +113,9 @@ ttsViewmodel.onTextFieldValueChange("Currency Detection Screen. Double Tap for i
                           ContextCompat.getMainExecutor(applicationContext),
                           analyzer
                       )
+//                      cameraControl?.enableTorch(true)
+                      enableTorch(true)
+
                   }
               }
             var capturedImage: ImageProxy? by remember { mutableStateOf(null) }
@@ -149,100 +153,102 @@ ttsViewmodel.onTextFieldValueChange("Currency Detection Screen. Double Tap for i
 
                     ) {
                         // ... UI components and camera preview
-                        Column() {
+//                        Column() {
 
-                            Button(onClick = {
-                                // Trigger capturing the image
+//                            Button(onClick = {
+//                                // Trigger capturing the image
+////                                takeCurrPhoto(controller, applicationContext) { it ->
+////                                    capturedImage = it
+////                                }
+//
+//                                if(analyzer.cont==true){
+//                                analyzer.cont=false}
+//                                else{
+//                                    analyzer.cont=true
+//                                }
+//                                Log.d("MainActivity",analyzer.cont.toString())
+//
+//                            }) {
+//                                if(analyzer.cont==true){
+//                                Text(text = "Stop analyzing")}
+//                                else
+//                                {
+//                                    Text(text = "Start analyzing")
+//
+//                            }
+//                            }
+//                            Button(onClick = {
+//                                // Trigger capturing the image
 //                                takeCurrPhoto(controller, applicationContext) { it ->
 //                                    capturedImage = it
 //                                }
-
-                                if(analyzer.cont==true){
-                                analyzer.cont=false}
-                                else{
-                                    analyzer.cont=true
-                                }
-                                Log.d("MainActivity",analyzer.cont.toString())
-
-                            }) {
-                                if(analyzer.cont==true){
-                                Text(text = "Stop analyzing")}
-                                else
-                                {
-                                    Text(text = "Start analyzing")
-
-                            }
-                            }
-                            Button(onClick = {
-                                // Trigger capturing the image
-                                takeCurrPhoto(controller, applicationContext) { it ->
-                                    capturedImage = it
-                                }
-                            }) {
-                                Text(text = "Capture Image")
-                            }
-                           // var ttsViewmodel=viewmodel<TTSViewmodel>()
-                            Button(onClick = {
-                                // Trigger capturing the image
-ttsViewmodel.textToSpeech(context)
-                            }) {
-                                Text(text = "Speak")
-                            }
-
-                            Button(onClick = {
-                                // Trigger capturing the image
-                                val image = capturedImage
-
-                                if (capturedImage != null) {
-                                    // Perform analysis on the captured image
-                                  //  analyzer.analyze(capturedImage!!)
-                           //         val results = classifier.classify(image!!.cropTo224x224()!!, image!!.imageInfo.rotationDegrees)
-                             //       classifications = results
-
-                                    // Optionally, you can log the results for verification
-                               //     Log.d("MainActivity", "Classification results: $results")
-                                }
-                            }
-                            ) {
-                                Text(text = "Analyze Image")
-                            }
+//                            }) {
+//                                Text(text = "Capture Image")
+//                            }
+//                           // var ttsViewmodel=viewmodel<TTSViewmodel>()
+//                            Button(onClick = {
+//                                // Trigger capturing the image
+//ttsViewmodel.textToSpeech(context)
+//                            }) {
+//                                Text(text = "Speak")
+//                            }
+//
+//                            Button(onClick = {
+//                                // Trigger capturing the image
+//                                val image = capturedImage
+//
+//                                if (capturedImage != null) {
+//                                    // Perform analysis on the captured image
+//                                  //  analyzer.analyze(capturedImage!!)
+//                           //         val results = classifier.classify(image!!.cropTo224x224()!!, image!!.imageInfo.rotationDegrees)
+//                             //       classifications = results
+//
+//                                    // Optionally, you can log the results for verification
+//                               //     Log.d("MainActivity", "Classification results: $results")
+//                                }
+//                            }
+//                            ) {
+//                                Text(text = "Analyze Image")
+//                            }
+//                        }
+                        Box(modifier=Modifier.align(Alignment.Center)){
+                            PulsatingCircles(text = "Detect")
                         }
-
                     }
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.BottomCenter)
-                    ) {
-                        capturedImage?.let { imageProxy ->
-                            val bitmap: Bitmap? = imageProxy.toBitmap()
-                            bitmap?.let {
-                                val imageBitmap: ImageBitmap = it.asImageBitmap()
-                                Image(
-                                    bitmap = imageBitmap,
-                                    contentDescription = "Captured Image",
-                                    modifier = Modifier
-                                )
-                            }
-                        }
-
-                        classifications.forEach {
-                            if (it.score > 0.70f) {
-                                Text(
-                                    text = it.name,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.primaryContainer)
-                                        .padding(8.dp),
-                                    textAlign = TextAlign.Center,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                        }
-
-                    }
+//                    Column(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .align(Alignment.BottomCenter)
+//                    ) {
+//                        capturedImage?.let { imageProxy ->
+//                            val bitmap: Bitmap? = imageProxy.toBitmap()
+//                            bitmap?.let {
+//                                val imageBitmap: ImageBitmap = it.asImageBitmap()
+//                                Image(
+//                                    bitmap = imageBitmap,
+//                                    contentDescription = "Captured Image",
+//                                    modifier = Modifier
+//                                )
+//                            }
+//                        }
+//
+//                        classifications.forEach {
+//                            if (it.score > 0.70f) {
+//                                Text(
+//                                    text = it.name,
+//                                    modifier = Modifier
+//                                        .fillMaxWidth()
+//                                        .background(MaterialTheme.colorScheme.primaryContainer)
+//                                        .padding(8.dp),
+//                                    textAlign = TextAlign.Center,
+//                                    fontSize = 20.sp,
+//                                    color = MaterialTheme.colorScheme.primary
+//                                )
+//                            }
+//                        }
+//
+//                    }
 
                 }
             }

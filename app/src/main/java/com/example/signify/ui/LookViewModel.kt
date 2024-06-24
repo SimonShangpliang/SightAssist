@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class LookViewModel: ViewModel() {
@@ -25,26 +26,28 @@ class LookViewModel: ViewModel() {
 init{
    val config= generationConfig {temperature=0.70f  }
  generativeModel=GenerativeModel(
-        modelName = "gemini-pro-vision",
-        apiKey = "AIzaSyDt-sDiRFzo203g38_safthogeiXCZFTqM",
+        modelName = "gemini-1.5-flash",
+        apiKey = "AIzaSyDxpCRBLAKinrybN5TObHYI8PaSqmGS-vs",
         generationConfig = config
     )
 }
-    fun questioning(userInput:String,selectedImages:List<ByteArray>){
+    suspend fun questioning(userInput:String,selectedImages:List<ByteArray>):String{
      _uiState.value=HomeUiState.Loading
         val prompt=userInput
-        viewModelScope.launch(Dispatchers.IO) {
+        var output=""
+
             try {
             val content=content{
                 for(bitmap in selectedImages)
                 {
                     //image(byteArrayToBitmap(bitmap))
+                    Log.d("Main",bitmap.toString())
                     blob("image/jpeg",bitmap)
                     }
                 text(prompt)
             }
-                var output=""
-               output+= generativeModel.generateContent(content).text
+               output= withContext(Dispatchers.IO) {                generativeModel.generateContent(content).text ?: ""
+               }
                 _uiState.value =HomeUiState.Success(output)
                 Log.d("MainActivity","Response done")
 
@@ -54,12 +57,13 @@ init{
 //                }
                 Log.d("MainActivity",output)
 
-            }catch (e:Exception){
+            } catch (e:Exception){
 _uiState.value=HomeUiState.Error(e.localizedMessage?:"Error in Generating content")
                 Log.d("MainActivity",e.localizedMessage)
             }
 
-        }
+
+        return output
 
     }
 }
