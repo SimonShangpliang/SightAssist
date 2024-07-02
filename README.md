@@ -11,22 +11,24 @@ Implementing intuitive gesture-based controls like** double-tap** and **long-pre
 
 ### Speech-to-Text
 With the built-in speech-to-text functionality, users can interact with the app through voice commands, enhancing usability and convenience.
+![Screenshot_2024-07-02-20-15-21-692_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/9fb3f65c-038d-4d5a-a457-363f6ca7fac2)
+
 
 ### Home Page
 Upon launching the app, users are greeted with the home page, offering easy navigation to various features designed for visual assistance.
-![Home Page](images/homepage_3.jpg)
+![Screenshot_2024-07-02-20-12-55-413_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/3aa3a0f0-b174-48dc-8d95-66a92fcef0cf)
 
 ### Currency Recognition Page
 Users can use the app to recognize different Indian currency notes, ensuring accurate financial transactions.
-![Taking Photo](images/take_photo_3.jpg)     ![From gallery](images/photosfromgallary_3.jpg)
+![Screenshot_2024-07-02-20-13-55-638_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/0080886e-9e02-4015-acdc-3daf3691895c)
 
 ### Visual Assitance Page
 Look screen enables you to see the world even if you can't physically see anything. With the help of Gemini AI, anything which the camera sees can be described for you
-![Taking Photo](images/take_photo_3.jpg)     ![From gallery](images/photosfromgallary_3.jpg)
+![Screenshot_2024-07-02-20-15-01-304_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/1f2dbbe3-2349-4c89-b533-5b9b5ace851a)
 
 ### Discuss Assitance Page
 Ever think you need to talk to or ask about something, well then discuss page will discuss with you anything you want to discuss about. Any questions you have or anything you have a trouble with, you name it , you can discuss here.
-![Taking Photo](images/take_photo_3.jpg)     ![From gallery](images/photosfromgallary_3.jpg)
+![Screenshot_2024-07-02-20-15-09-159_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/6f64623d-2506-4b0d-9aee-09186ba83e60)
 
 
 ## Getting Started
