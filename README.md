@@ -9,27 +9,30 @@ Built with **Jetpack Compose** and **Kotlin**, this app utilizes a** custom-trai
 ### Gesture Based Controls
 Implementing intuitive gesture-based controls like** double-tap** and **long-press**, the app ensures accessibility without the need for visual input.
 
-### Speech-to-Text
-With the built-in speech-to-text functionality, users can interact with the app through voice commands, enhancing usability and convenience.
-![Screenshot_2024-07-02-20-15-21-692_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/9fb3f65c-038d-4d5a-a457-363f6ca7fac2)
-
-
 ### Home Page
 Upon launching the app, users are greeted with the home page, offering easy navigation to various features designed for visual assistance.
-![Screenshot_2024-07-02-20-12-55-413_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/3aa3a0f0-b174-48dc-8d95-66a92fcef0cf)
+
+<img src="https://github.com/SimonShangpliang/SightAssist/assets/118509034/3aa3a0f0-b174-48dc-8d95-66a92fcef0cf" width="300"/>
 
 ### Currency Recognition Page
 Users can use the app to recognize different Indian currency notes, ensuring accurate financial transactions.
-![Screenshot_2024-07-02-20-13-55-638_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/0080886e-9e02-4015-acdc-3daf3691895c)
 
-### Visual Assitance Page
-Look screen enables you to see the world even if you can't physically see anything. With the help of Gemini AI, anything which the camera sees can be described for you
-![Screenshot_2024-07-02-20-15-01-304_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/1f2dbbe3-2349-4c89-b533-5b9b5ace851a)
+<img src="https://github.com/SimonShangpliang/SightAssist/assets/118509034/0080886e-9e02-4015-acdc-3daf3691895c" width="300"/>
 
-### Discuss Assitance Page
-Ever think you need to talk to or ask about something, well then discuss page will discuss with you anything you want to discuss about. Any questions you have or anything you have a trouble with, you name it , you can discuss here.
-![Screenshot_2024-07-02-20-15-09-159_com example signify](https://github.com/SimonShangpliang/SightAssist/assets/118509034/6f64623d-2506-4b0d-9aee-09186ba83e60)
+### Visual Assistance Page
+Look screen enables you to see the world even if you can't physically see anything. With the help of Gemini AI, anything which the camera sees can be described for you.
 
+<img src="https://github.com/SimonShangpliang/SightAssist/assets/118509034/1f2dbbe3-2349-4c89-b533-5b9b5ace851a" width="300"/>
+
+### Discuss Assistance Page
+Ever think you need to talk to or ask about something? The discuss page will discuss with you anything you want to talk about. Any questions you have or anything you have trouble with, you can discuss here.
+
+<img src="https://github.com/SimonShangpliang/SightAssist/assets/118509034/6f64623d-2506-4b0d-9aee-09186ba83e60" width="300"/>
+
+### Speech-to-Text
+With the built-in speech-to-text functionality, users can interact with the app through voice commands, enhancing usability and convenience.
+
+<img src="https://github.com/SimonShangpliang/SightAssist/assets/118509034/9fb3f65c-038d-4d5a-a457-363f6ca7fac2" width="300"/>
 
 ## Getting Started
 
